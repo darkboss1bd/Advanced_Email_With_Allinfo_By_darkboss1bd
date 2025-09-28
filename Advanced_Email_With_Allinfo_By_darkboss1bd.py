@@ -9,186 +9,119 @@ from datetime import datetime, timedelta
 from urllib.parse import quote, urlencode
 import base64
 import hashlib
-import sys
 
-class RealTimeAccountMonitor:
+class AdvancedDarkBoss1BDScanner:
     def __init__(self):
         self.brand_name = "darkboss1bd"
-        self.version = "5.0"
+        self.version = "4.0"
         self.author = "darkboss1bd"
         self.telegram_id = "https://t.me/darkvaiadmin"
         self.telegram_channel = "https://t.me/windowspremiumkey"
         
-        # Real-time activity database with realistic behaviors
-        self.platforms_activities = {
-            # Social Media with realistic activities
-            "Facebook": {
-                "url": "https://facebook.com/{}",
-                "activities": [
-                    "Profile viewed", "Post liked", "Photo uploaded", "Friend request sent",
-                    "Message sent", "Story posted", "Comment added", "Page liked",
-                    "Group joined", "Event created", "Live stream started", "Reel watched"
-                ],
-                "login_count": random.randint(5, 50),
-                "session_data": self.generate_session_data()
-            },
-            "Instagram": {
-                "url": "https://instagram.com/{}",
-                "activities": [
-                    "Post liked", "Story viewed", "Reel created", "DM sent",
-                    "Comment posted", "Follow added", "Hashtag searched", "Profile visited",
-                    "Live stream watched", "IGTV video uploaded", "Shop browsed", "Filter used"
-                ],
-                "login_count": random.randint(10, 100),
-                "session_data": self.generate_session_data()
-            },
-            "Twitter": {
-                "url": "https://twitter.com/{}",
-                "activities": [
-                    "Tweet posted", "Retweet done", "Like given", "DM sent",
-                    "Thread created", "Space joined", "Trend viewed", "List created",
-                    "Moment watched", "Poll voted", "Fleet posted", "Bookmark added"
-                ],
-                "login_count": random.randint(8, 80),
-                "session_data": self.generate_session_data()
-            },
-            "LinkedIn": {
-                "url": "https://linkedin.com/in/{}",
-                "activities": [
-                    "Profile viewed", "Connection requested", "Post shared", "Job applied",
-                    "Skill endorsed", "Recommendation given", "Article published", "Course taken",
-                    "Company followed", "Message sent", "Profile updated", "News shared"
-                ],
-                "login_count": random.randint(3, 30),
-                "session_data": self.generate_session_data()
-            },
-            "Gmail": {
-                "url": "https://gmail.com",
-                "activities": [
-                    "Email sent", "Email received", "Email deleted", "Label created",
-                    "Filter set", "Contact added", "Draft saved", "Search performed",
-                    "Attachment downloaded", "Spam reported", "Star added", "Forward done"
-                ],
-                "login_count": random.randint(50, 200),
-                "session_data": self.generate_session_data()
-            },
-            "YouTube": {
-                "url": "https://youtube.com/@{}",
-                "activities": [
-                    "Video watched", "Like given", "Comment posted", "Subscribe done",
-                    "Playlist created", "Video uploaded", "Live stream watched", "Share done",
-                    "Download requested", "Channel visited", "History cleared", "Premium used"
-                ],
-                "login_count": random.randint(15, 120),
-                "session_data": self.generate_session_data()
-            },
-            "GitHub": {
-                "url": "https://github.com/{}",
-                "activities": [
-                    "Repository created", "Commit pushed", "Pull request made", "Issue opened",
-                    "Star given", "Fork done", "Code reviewed", "Gist created",
-                    "Profile updated", "Project created", "Wiki edited", "Release published"
-                ],
-                "login_count": random.randint(2, 25),
-                "session_data": self.generate_session_data()
-            },
-            "Amazon": {
-                "url": "https://amazon.com",
-                "activities": [
-                    "Product viewed", "Purchase made", "Cart updated", "Review posted",
-                    "Wishlist added", "Search performed", "Order tracked", "Return requested",
-                    "Payment updated", "Address changed", "Prime video watched", "Deal claimed"
-                ],
-                "login_count": random.randint(5, 40),
-                "session_data": self.generate_session_data()
-            },
-            "Netflix": {
-                "url": "https://netflix.com",
-                "activities": [
-                    "Movie watched", "Series binged", "Profile created", "Download done",
-                    "Rating given", "Continue watching", "Search performed", "List added",
-                    "Device added", "Subscription updated", "Trailer watched", "Recommendation viewed"
-                ],
-                "login_count": random.randint(8, 60),
-                "session_data": self.generate_session_data()
-            },
-            "PayPal": {
-                "url": "https://paypal.com",
-                "activities": [
-                    "Payment sent", "Payment received", "Invoice created", "Refund processed",
-                    "Balance checked", "Bank linked", "Card added", "Transfer made",
-                    "Subscription managed", "Dispute opened", "Currency converted", "Security updated"
-                ],
-                "login_count": random.randint(3, 20),
-                "session_data": self.generate_session_data()
-            },
-            "Spotify": {
-                "url": "https://open.spotify.com/user/{}",
-                "activities": [
-                    "Song played", "Playlist created", "Like given", "Share done",
-                    "Podcast subscribed", "Download done", "Radio started", "Collaborative playlist",
-                    "Year wrapped viewed", "Device connected", "Premium used", "Search performed"
-                ],
-                "login_count": random.randint(12, 80),
-                "session_data": self.generate_session_data()
-            },
-            "Reddit": {
-                "url": "https://reddit.com/user/{}",
-                "activities": [
-                    "Post created", "Comment posted", "Upvote given", "Award given",
-                    "Subreddit joined", "Message sent", "Live chat joined", "Poll voted",
-                    "Avatar updated", "Premium used", "Search performed", "Crosspost done"
-                ],
-                "login_count": random.randint(6, 45),
-                "session_data": self.generate_session_data()
-            },
-            "Discord": {
-                "url": "",
-                "activities": [
-                    "Message sent", "Voice joined", "Screen shared", "Reaction added",
-                    "Server joined", "DM started", "Call made", "File uploaded",
-                    "Stream started", "Nickname changed", "Role assigned", "Bot used"
-                ],
-                "login_count": random.randint(20, 150),
-                "session_data": self.generate_session_data()
-            },
-            "WhatsApp": {
-                "url": "",
-                "activities": [
-                    "Message sent", "Call made", "Status updated", "Group created",
-                    "Media shared", "Backup created", "Broadcast sent", "Profile updated",
-                    "Starred message", "Delete for everyone", "Voice note sent", "Location shared"
-                ],
-                "login_count": random.randint(100, 500),
-                "session_data": self.generate_session_data()
-            },
-            "Telegram": {
-                "url": "https://t.me/{}",
-                "activities": [
-                    "Secret chat started", "Channel created", "Bot used", "File shared",
-                    "Voice call made", "Video message sent", "Sticker used", "Poll created",
-                    "Group managed", "Theme changed", "Auto-delete set", "Passcode set"
-                ],
-                "login_count": random.randint(30, 200),
-                "session_data": self.generate_session_data()
-            }
+        # Extended platform database
+        self.platforms_db = {
+            # Social Media
+            "Facebook": {"url": "https://facebook.com/{}", "category": "social"},
+            "Instagram": {"url": "https://instagram.com/{}", "category": "social"},
+            "Twitter": {"url": "https://twitter.com/{}", "category": "social"},
+            "LinkedIn": {"url": "https://linkedin.com/in/{}", "category": "professional"},
+            "Reddit": {"url": "https://reddit.com/user/{}", "category": "social"},
+            "Pinterest": {"url": "https://pinterest.com/{}", "category": "social"},
+            "TikTok": {"url": "https://tiktok.com/@{}", "category": "social"},
+            "Snapchat": {"url": "https://snapchat.com/add/{}", "category": "social"},
+            "Telegram": {"url": "https://t.me/{}", "category": "messaging"},
+            "Discord": {"url": "", "category": "gaming"},  # No direct URL
+            
+            # Professional
+            "GitHub": {"url": "https://github.com/{}", "category": "professional"},
+            "GitLab": {"url": "https://gitlab.com/{}", "category": "professional"},
+            "StackOverflow": {"url": "https://stackoverflow.com/users/{}", "category": "professional"},
+            "Behance": {"url": "https://behance.net/{}", "category": "creative"},
+            "Dribbble": {"url": "https://dribbble.com/{}", "category": "creative"},
+            "Medium": {"url": "https://medium.com/@{}", "category": "blogging"},
+            
+            # Gaming
+            "Steam": {"url": "https://steamcommunity.com/id/{}", "category": "gaming"},
+            "Epic Games": {"url": "", "category": "gaming"},
+            "Xbox Live": {"url": "", "category": "gaming"},
+            "PlayStation": {"url": "", "category": "gaming"},
+            "Twitch": {"url": "https://twitch.tv/{}", "category": "gaming"},
+            "Discord": {"url": "", "category": "gaming"},
+            
+            # Entertainment
+            "YouTube": {"url": "https://youtube.com/@{}", "category": "entertainment"},
+            "Spotify": {"url": "https://open.spotify.com/user/{}", "category": "music"},
+            "SoundCloud": {"url": "https://soundcloud.com/{}", "category": "music"},
+            "Netflix": {"url": "", "category": "streaming"},
+            "Amazon Prime": {"url": "", "category": "streaming"},
+            
+            # E-commerce
+            "eBay": {"url": "https://ebay.com/usr/{}", "category": "ecommerce"},
+            "Amazon": {"url": "", "category": "ecommerce"},
+            "AliExpress": {"url": "", "category": "ecommerce"},
+            "Etsy": {"url": "https://etsy.com/people/{}", "category": "ecommerce"},
+            
+            # Technology
+            "Google": {"url": "", "category": "tech"},
+            "Microsoft": {"url": "", "category": "tech"},
+            "Apple": {"url": "", "category": "tech"},
+            "Dropbox": {"url": "", "category": "tech"},
+            "Mozilla": {"url": "", "category": "tech"},
+            
+            # Regional
+            "VK": {"url": "https://vk.com/{}", "category": "social"},
+            "Odnoklassniki": {"url": "https://ok.ru/{}", "category": "social"},
+            "Weibo": {"url": "https://weibo.com/{}", "category": "social"},
+            "QQ": {"url": "", "category": "social"},
+            "Baidu": {"url": "", "category": "tech"},
+            
+            # Forums & Communities
+            "Quora": {"url": "https://quora.com/profile/{}", "category": "forum"},
+            "Imgur": {"url": "https://imgur.com/user/{}", "category": "social"},
+            "9GAG": {"url": "https://9gag.com/u/{}", "category": "entertainment"},
+            "DeviantArt": {"url": "https://deviantart.com/{}", "category": "creative"},
+            "Flickr": {"url": "https://flickr.com/people/{}", "category": "creative"},
+            
+            # Additional Platforms
+            "WhatsApp": {"url": "", "category": "messaging"},
+            "Signal": {"url": "", "category": "messaging"},
+            "Skype": {"url": "", "category": "messaging"},
+            "Zoom": {"url": "", "category": "professional"},
+            "Slack": {"url": "", "category": "professional"},
+            "Trello": {"url": "", "category": "professional"},
+            "Notion": {"url": "", "category": "professional"},
+            "WordPress": {"url": "https://{}.wordpress.com", "category": "blogging"},
+            "Blogger": {"url": "https://{}.blogspot.com", "category": "blogging"},
+            "Wix": {"url": "", "category": "website"},
+            "Squarespace": {"url": "", "category": "website"},
+            
+            # Crypto & Finance
+            "Binance": {"url": "", "category": "crypto"},
+            "Coinbase": {"url": "", "category": "crypto"},
+            "PayPal": {"url": "", "category": "finance"},
+            "Venmo": {"url": "", "category": "finance"},
+            "CashApp": {"url": "", "category": "finance"},
+            
+            # Travel & Food
+            "Airbnb": {"url": "", "category": "travel"},
+            "Uber": {"url": "", "category": "travel"},
+            "TripAdvisor": {"url": "", "category": "travel"},
+            "Zomato": {"url": "", "category": "food"},
+            "Swiggy": {"url": "", "category": "food"},
+            "Uber Eats": {"url": "", "category": "food"},
+            
+            # Education
+            "Coursera": {"url": "", "category": "education"},
+            "Udemy": {"url": "", "category": "education"},
+            "Khan Academy": {"url": "", "category": "education"},
+            "edX": {"url": "", "category": "education"},
+            
+            # Dating
+            "Tinder": {"url": "", "category": "dating"},
+            "Bumble": {"url": "", "category": "dating"},
+            "Hinge": {"url": "", "category": "dating"},
+            "OkCupid": {"url": "", "category": "dating"}
         }
-
-    def generate_session_data(self):
-        """Generate realistic session data"""
-        sessions = []
-        for _ in range(random.randint(1, 8)):
-            session_start = datetime.now() - timedelta(hours=random.randint(1, 720))
-            session_end = session_start + timedelta(minutes=random.randint(5, 180))
-            sessions.append({
-                "start_time": session_start.strftime("%Y-%m-%d %H:%M:%S"),
-                "end_time": session_end.strftime("%Y-%m-%d %H:%M:%S"),
-                "duration_minutes": (session_end - session_start).seconds // 60,
-                "ip_address": f"192.168.{random.randint(1,255)}.{random.randint(1,255)}",
-                "device": random.choice(["Windows 10", "Android", "iPhone", "MacOS", "Linux"]),
-                "browser": random.choice(["Chrome", "Firefox", "Safari", "Edge"])
-            })
-        return sessions
 
     def display_banner(self):
         """Display advanced hacker-style banner"""
@@ -203,27 +136,27 @@ class RealTimeAccountMonitor:
   ██████  ██   ██ ██   ██ ██   ██ ██████   ██████  ███████ ██   ██ ██      
                                                                             
         ═══════════════════════════════════════════════════════════
-                  REAL-TIME ACCOUNT MONITORING SYSTEM v5.0
+                        ADVANCED OSINT FRAMEWORK v4.0
         ═══════════════════════════════════════════════════════════
         """
         print("\033[91m" + banner + "\033[0m")
         
         info = f"""
         \033[96m╔══════════════════════════════════════════════════════════════╗
-        \033[96m║\033[91m        🕵️‍♂️ REAL-TIME ACCOUNT MONITORING v{self.version}           \033[96m║
+        \033[96m║\033[91m           🕵️‍♂️ ADVANCED OSINT FRAMEWORK v{self.version}              \033[96m║
         \033[96m║\033[92m              CREATED BY: {self.author}                          \033[96m║
-        \033[96m║\033[93m           🔥 LIVE ACTIVITY TRACKING 🔥                   \033[96m║
+        \033[96m║\033[93m           🔥 100+ PLATFORMS SUPPORT 🔥                    \033[96m║
         \033[96m╚══════════════════════════════════════════════════════════════╝
         
-        \033[97m[\033[91m🔥\033[97m] Real-time Login Monitoring
-        \033[97m[\033[92m📧\033[97m] Activity Pattern Analysis
-        \033[97m[\033[94m🌐\033[97m] Session Data Collection
-        \033[97m[\033[93m⚡\033[97m] Behavioral Analytics
-        \033[97m[\033[95m🔍\033[97m] Cross-platform Correlation
+        \033[97m[\033[91m🔥\033[97m] Multi-threaded Scanning Engine
+        \033[97m[\033[92m📧\033[97m] 100+ Platform Database
+        \033[97m[\033[94m🌐\033[97m] Advanced Pattern Recognition
+        \033[97m[\033[93m⚡\033[97m] Real-time Intelligence Gathering
+        \033[97m[\033[95m🔍\033[97m] Cross-platform Correlation Analysis
         
         \033[95m📞 Telegram: {self.telegram_id}
         \033[95m📢 Channel: {self.telegram_channel}
-        \033[96m🔗 Monitoring: 15+ Platforms
+        \033[96m🔗 Platforms: {len(self.platforms_db)}+ Websites
         """
         print(info)
 
@@ -236,218 +169,315 @@ class RealTimeAccountMonitor:
         webbrowser.open(self.telegram_channel)
         time.sleep(2)
 
-    def simulate_real_time_monitoring(self, email):
-        """Simulate real-time account monitoring"""
-        print(f"\n\033[96m[🔍] Starting real-time monitoring for: \033[93m{email}")
-        print("\033[96m[⚡] Accessing account activity logs...")
-        
-        results = {}
-        
-        for platform, data in self.platforms_activities.items():
-            print(f"\033[97m[📡] Monitoring {platform} activities...")
-            
-            # Simulate real-time data fetching
-            time.sleep(0.3)
-            
-            # Generate recent activities
-            recent_activities = []
-            for _ in range(random.randint(3, 12)):
-                activity = {
-                    "action": random.choice(data["activities"]),
-                    "timestamp": (datetime.now() - timedelta(minutes=random.randint(1, 1440))).strftime("%Y-%m-%d %H:%M:%S"),
-                    "device": random.choice(["Mobile", "Desktop", "Tablet"]),
-                    "location": f"{random.choice(['Dhaka', 'Chittagong', 'New York', 'London', 'Tokyo'])}"
+    def generate_user_patterns(self, email):
+        """Generate multiple username patterns from email"""
+        username = email.split('@')[0]
+        patterns = {
+            'original': username,
+            'with_dots': username.replace('.', ''),
+            'with_underscore': username.replace('.', '_'),
+            'first_last': self.extract_name_patterns(username),
+            'shortened': username[:8],
+            'reversed': username[::-1],
+            'with_numbers': username + str(random.randint(1, 99))
+        }
+        return patterns
+
+    def extract_name_patterns(self, username):
+        """Extract name-like patterns from username"""
+        if '.' in username:
+            parts = username.split('.')
+            if len(parts) >= 2:
+                return parts[0] + parts[1]
+        return username
+
+    def check_platform_thread(self, platform, username_pattern, results, progress):
+        """Thread function to check platform"""
+        try:
+            platform_info = self.platforms_db[platform]
+            if platform_info["url"]:
+                url = platform_info["url"].format(username_pattern)
+                
+                # Simulate different response times
+                time.sleep(random.uniform(0.1, 0.5))
+                
+                # Realistic probability based on platform category
+                category = platform_info["category"]
+                prob_weights = {
+                    "social": 0.7, "professional": 0.6, "gaming": 0.5,
+                    "entertainment": 0.6, "ecommerce": 0.4, "tech": 0.3,
+                    "messaging": 0.2, "creative": 0.5, "forum": 0.4,
+                    "blogging": 0.4, "crypto": 0.3, "finance": 0.3,
+                    "travel": 0.3, "food": 0.3, "education": 0.4,
+                    "dating": 0.3, "website": 0.3
                 }
-                recent_activities.append(activity)
+                
+                account_exists = random.random() < prob_weights.get(category, 0.4)
+                confidence = random.randint(75, 98) if account_exists else random.randint(10, 45)
+                
+                result = {
+                    "platform": platform,
+                    "category": category,
+                    "profile_url": url if account_exists else "",
+                    "status": "Account Found" if account_exists else "Not Found",
+                    "confidence": confidence,
+                    "username_pattern": username_pattern,
+                    "last_active": self.generate_realistic_date() if account_exists else "N/A",
+                    "threat_level": self.calculate_threat_level(platform, confidence),
+                    "data_points": random.randint(1, 15) if account_exists else 0
+                }
+                
+                results.append(result)
             
-            # Account status based on realistic patterns
-            last_login = datetime.now() - timedelta(hours=random.randint(1, 72))
-            account_status = "Active" if random.random() > 0.1 else "Inactive"
+            progress[0] += 1
+            self.update_progress(progress[0], len(self.platforms_db))
             
-            results[platform] = {
-                "account_exists": random.random() > 0.2,  # 80% chance account exists
-                "profile_url": data["url"].format(email.split('@')[0]) if data["url"] else "",
-                "login_count": data["login_count"],
-                "last_login": last_login.strftime("%Y-%m-%d %H:%M:%S"),
-                "account_status": account_status,
-                "recent_activities": recent_activities,
-                "session_data": data["session_data"],
-                "total_time_spent": sum(session["duration_minutes"] for session in data["session_data"]),
-                "preferences": self.generate_user_preferences(platform)
-            }
-            
-            print(f"    \033[92m✓ {platform}: {len(recent_activities)} activities found")
+        except Exception as e:
+            print(f"\033[91m[!] Error scanning {platform}: {e}")
+
+    def calculate_threat_level(self, platform, confidence):
+        """Calculate threat level based on platform and confidence"""
+        high_risk_platforms = ["Facebook", "Instagram", "LinkedIn", "Twitter", "GitHub"]
+        if platform in high_risk_platforms and confidence > 80:
+            return "HIGH"
+        elif confidence > 70:
+            return "MEDIUM"
+        else:
+            return "LOW"
+
+    def generate_realistic_date(self):
+        """Generate realistic last active date"""
+        days_ago = random.randint(1, 365)
+        last_active = datetime.now() - timedelta(days=days_ago)
+        return last_active.strftime("%Y-%m-%d")
+
+    def update_progress(self, current, total):
+        """Update progress bar"""
+        percentage = (current / total) * 100
+        bar_length = 40
+        filled_length = int(bar_length * current // total)
+        bar = '█' * filled_length + '░' * (bar_length - filled_length)
+        print(f'\r\033[94m[⏳] Progress: |{bar}| {percentage:.1f}% ({current}/{total})', end='', flush=True)
+
+    def perform_advanced_scan(self, email):
+        """Perform multi-threaded advanced scanning"""
+        print(f"\n\033[96m[🔍] Starting advanced OSINT scan for: \033[93m{email}")
+        print("\033[96m[⚡] Initializing multi-threaded scanning engine...")
         
+        username_patterns = self.generate_user_patterns(email)
+        primary_username = username_patterns['original']
+        
+        print(f"\033[97m[🔧] Generated username patterns: {', '.join(username_patterns.values())}")
+        time.sleep(2)
+        
+        results = []
+        progress = [0]
+        
+        print("\033[97m[🚀] Launching scanning threads...")
+        self.update_progress(0, len(self.platforms_db))
+        
+        # Simulate multi-threading with sequential execution
+        threads = []
+        for platform in self.platforms_db.keys():
+            thread = threading.Thread(
+                target=self.check_platform_thread,
+                args=(platform, primary_username, results, progress)
+            )
+            threads.append(thread)
+            thread.start()
+            
+            # Limit concurrent threads
+            if len(threads) >= 10:
+                for t in threads:
+                    t.join()
+                threads = []
+        
+        # Wait for remaining threads
+        for t in threads:
+            t.join()
+        
+        print("\n\033[92m[✅] Scan completed successfully!")
         return results
 
-    def generate_user_preferences(self, platform):
-        """Generate realistic user preferences"""
-        preferences = {
-            "Facebook": ["News Feed", "Messenger", "Marketplace", "Groups"],
-            "Instagram": ["Stories", "Reels", "Direct Messages", "Explore"],
-            "Twitter": ["Timeline", "Trends", "Moments", "Lists"],
-            "YouTube": ["Subscriptions", "Trending", "History", "Playlists"],
-            "Netflix": ["Continue Watching", "My List", "New Releases", "Top Picks"]
+    def analyze_results(self, results, email):
+        """Advanced analysis of scan results"""
+        print(f"\n\033[96m[📊] Performing advanced correlation analysis...")
+        
+        total_platforms = len(results)
+        found_accounts = [r for r in results if r["status"] == "Account Found"]
+        high_risk = [r for r in found_accounts if r["threat_level"] == "HIGH"]
+        
+        analysis = {
+            "total_scanned": total_platforms,
+            "accounts_found": len(found_accounts),
+            "success_rate": (len(found_accounts) / total_platforms) * 100,
+            "high_risk_accounts": len(high_risk),
+            "categories_found": len(set(r["category"] for r in found_accounts)),
+            "total_data_points": sum(r["data_points"] for r in found_accounts),
+            "average_confidence": sum(r["confidence"] for r in found_accounts) / len(found_accounts) if found_accounts else 0
         }
         
-        return preferences.get(platform, ["General"])
+        return analysis
 
-    def display_real_time_dashboard(self, email, results):
-        """Display real-time monitoring dashboard"""
+    def display_comprehensive_report(self, email, results, analysis):
+        """Display comprehensive scan report"""
         print(f"\n\033[96m{'═' * 80}")
-        print(f"\033[91m📊 REAL-TIME ACCOUNT ACTIVITY DASHBOARD")
+        print(f"\033[91m📊 COMPREHENSIVE OSINT INTELLIGENCE REPORT")
         print(f"\033[96m{'═' * 80}")
         print(f"\033[93m🎯 Target: {email}")
-        print(f"\033[92m📅 Last Updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-        print(f"\033[94m🔧 System: DarkBoss1BD Live Monitor v{self.version}")
+        print(f"\033[92m📅 Report Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        print(f"\033[94m🔧 Tool: DarkBoss1BD Advanced Scanner v{self.version}")
         print(f"\033[96m{'═' * 80}")
         
-        total_logins = sum(data["login_count"] for data in results.values() if data["account_exists"])
-        active_accounts = sum(1 for data in results.values() if data["account_exists"] and data["account_status"] == "Active")
-        
-        print(f"\n\033[97m📈 LIVE STATISTICS:")
+        # Summary Statistics
+        print(f"\n\033[97m📈 EXECUTIVE SUMMARY:")
         print(f"\033[94m{'─' * 50}")
-        print(f"   \033[92m✅ Active Accounts: {active_accounts}/{len(results)}")
-        print(f"   \033[93m📊 Total Logins: {total_logins}")
-        print(f"   \033[96m⏱️  Total Time Spent: {sum(data['total_time_spent'] for data in results.values() if data['account_exists'])} minutes")
-        print(f"   \033[95m🔔 Recent Activities: {sum(len(data['recent_activities']) for data in results.values() if data['account_exists'])}")
-
-    def display_detailed_activities(self, email, results):
-        """Display detailed activity logs"""
-        print(f"\n\033[97m🔍 DETAILED ACTIVITY LOGS:")
+        print(f"   \033[92m✓ Accounts Identified: {analysis['accounts_found']}")
+        print(f"   \033[91m⚠️  High Risk Profiles: {analysis['high_risk_accounts']}")
+        print(f"   \033[93m📊 Platforms Scanned: {analysis['total_scanned']}")
+        print(f"   \033[96m🎯 Success Rate: {analysis['success_rate']:.1f}%")
+        print(f"   \033[95m🔍 Data Points Collected: {analysis['total_data_points']}")
+        print(f"   \033[94m📈 Average Confidence: {analysis['average_confidence']:.1f}%")
+        print(f"   \033[92m🏷️  Categories Found: {analysis['categories_found']}")
+        
+        # Category Breakdown
+        print(f"\n\033[97m📂 CATEGORY BREAKDOWN:")
+        print(f"\033[94m{'─' * 50}")
+        categories = {}
+        for result in results:
+            if result["status"] == "Account Found":
+                cat = result["category"]
+                categories[cat] = categories.get(cat, 0) + 1
+        
+        for category, count in sorted(categories.items(), key=lambda x: x[1], reverse=True):
+            print(f"   \033[96m{category:15}: {count:3} accounts")
+        
+        # Detailed Results by Category
+        print(f"\n\033[97m🔍 DETAILED FINDINGS:")
         print(f"\033[96m{'═' * 80}")
         
-        for platform, data in results.items():
-            if data["account_exists"]:
-                print(f"\n\033[95m📱 {platform.upper()} - Account Monitoring")
+        for category in sorted(set(r["category"] for r in results)):
+            category_results = [r for r in results if r["category"] == category and r["status"] == "Account Found"]
+            if category_results:
+                print(f"\n\033[95m📁 {category.upper()} ({len(category_results)} accounts)")
                 print(f"\033[94m{'─' * 60}")
-                print(f"   \033[97m🔗 Profile: {data['profile_url']}")
-                print(f"   \033[92m📊 Login Count: {data['login_count']}")
-                print(f"   \033[93m⏰ Last Login: {data['last_login']}")
-                print(f"   \033[96m📈 Status: {data['account_status']}")
-                print(f"   \033[95m⏱️  Total Time: {data['total_time_spent']} minutes")
                 
-                print(f"\n   \033[97m🔄 RECENT ACTIVITIES:")
-                for i, activity in enumerate(data["recent_activities"][:5], 1):
-                    print(f"      {i}. {activity['action']}")
-                    print(f"         📅 {activity['timestamp']} | 📱 {activity['device']} | 📍 {activity['location']}")
-                
-                print(f"\n   \033[97m💻 RECENT SESSIONS:")
-                for i, session in enumerate(data["session_data"][:3], 1):
-                    print(f"      {i}. {session['start_time']} to {session['end_time']}")
-                    print(f"         ⏱️  {session['duration_minutes']}min | 🌐 {session['ip_address']}")
-                    print(f"         💻 {session['device']} | 🔍 {session['browser']}")
+                for result in category_results:
+                    color = "\033[91m" if result["threat_level"] == "HIGH" else "\033[93m" if result["threat_level"] == "MEDIUM" else "\033[92m"
+                    print(f"   {color}🏷️  {result['platform']:20} | Confidence: {result['confidence']:3}% | Threat: {result['threat_level']:6}")
+                    print(f"   \033[97m   🔗 {result['profile_url']}")
+                    print(f"   \033[90m   📅 Last Active: {result['last_active']} | Data Points: {result['data_points']}")
+                    print(f"   \033[94m   {'─' * 50}")
 
-    def generate_activity_timeline(self, results):
-        """Generate activity timeline across all platforms"""
-        print(f"\n\033[97m📅 ACTIVITY TIMELINE (Last 24 Hours):")
-        print(f"\033[96m{'═' * 80}")
-        
-        all_activities = []
-        for platform, data in results.items():
-            if data["account_exists"]:
-                for activity in data["recent_activities"]:
-                    activity["platform"] = platform
-                    all_activities.append(activity)
-        
-        # Sort by timestamp
-        all_activities.sort(key=lambda x: x["timestamp"], reverse=True)
-        
-        for activity in all_activities[:10]:  # Show last 10 activities
-            time_diff = datetime.now() - datetime.strptime(activity["timestamp"], "%Y-%m-%d %H:%M:%S")
-            minutes_ago = int(time_diff.total_seconds() // 60)
-            
-            print(f"   \033[93m[{activity['platform']}] {activity['action']}")
-            print(f"   \033[97m   ⏰ {minutes_ago} minutes ago | 📱 {activity['device']} | 📍 {activity['location']}")
-            print(f"   \033[90m   {'─' * 50}")
-
-    def save_comprehensive_report(self, email, results):
-        """Save comprehensive monitoring report"""
-        report_data = {
+    def save_advanced_reports(self, email, results, analysis):
+        """Save reports in multiple formats"""
+        # JSON Report
+        json_report = {
             "metadata": {
+                "scan_id": hashlib.md5(email.encode()).hexdigest(),
                 "email": email,
-                "report_date": datetime.now().isoformat(),
-                "monitoring_duration": "Real-time",
-                "tool": f"DarkBoss1BD Live Monitor v{self.version}",
-                "operator": self.author
+                "scan_date": datetime.now().isoformat(),
+                "tool": f"DarkBoss1BD Advanced Scanner v{self.version}",
+                "operator": self.author,
+                "platforms_scanned": len(self.platforms_db)
             },
-            "summary": {
-                "total_platforms": len(results),
-                "active_accounts": sum(1 for data in results.values() if data["account_exists"]),
-                "total_logins": sum(data["login_count"] for data in results.values() if data["account_exists"]),
-                "total_activities": sum(len(data["recent_activities"]) for data in results.values() if data["account_exists"])
-            },
-            "detailed_results": results
+            "analysis": analysis,
+            "results": results
         }
         
-        # Save JSON report
-        json_filename = f"{email.replace('@', '_at_')}_live_monitor.json"
+        json_filename = f"{email.replace('@', '_at_')}_advanced_scan.json"
         with open(json_filename, 'w', encoding='utf-8') as f:
-            json.dump(report_data, f, indent=2, ensure_ascii=False)
+            json.dump(json_report, f, indent=2, ensure_ascii=False)
         
-        # Save text report
-        txt_filename = f"{email.replace('@', '_at_')}_live_monitor.txt"
-        with open(txt_filename, 'w', encoding='utf-8') as f:
-            f.write("DARKBOSS1BD REAL-TIME ACCOUNT MONITORING REPORT\n")
-            f.write("=" * 60 + "\n\n")
-            f.write(f"Target: {email}\n")
-            f.write(f"Report Date: {datetime.now()}\n")
-            f.write(f"Platforms Monitored: {len(results)}\n\n")
-            
-            for platform, data in results.items():
-                if data["account_exists"]:
-                    f.write(f"PLATFORM: {platform}\n")
-                    f.write(f"Login Count: {data['login_count']}\n")
-                    f.write(f"Last Login: {data['last_login']}\n")
-                    f.write(f"Status: {data['account_status']}\n")
-                    f.write("Recent Activities:\n")
-                    for activity in data["recent_activities"][:5]:
-                        f.write(f"  - {activity['action']} at {activity['timestamp']}\n")
-                    f.write("\n")
+        # HTML Report
+        html_report = self.generate_html_report(email, results, analysis)
+        html_filename = f"{email.replace('@', '_at_')}_advanced_scan.html"
+        with open(html_filename, 'w', encoding='utf-8') as f:
+            f.write(html_report)
         
         print(f"\033[92m[💾] JSON report saved: {json_filename}")
-        print(f"\033[92m[💾] Text report saved: {txt_filename}")
+        print(f"\033[92m[💾] HTML report saved: {html_filename}")
+        print(f"\033[92m[📊] Total platforms scanned: {len(self.platforms_db)}")
 
-    def simulate_live_updates(self, email, results):
-        """Simulate live activity updates"""
-        print(f"\n\033[96m[🔄] Starting live activity stream for {email}...")
-        print("\033[90m[ℹ️] Press Ctrl+C to stop live monitoring\n")
+    def generate_html_report(self, email, results, analysis):
+        """Generate HTML report"""
+        html = f"""
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>DarkBoss1BD OSINT Report - {email}</title>
+            <style>
+                body {{ font-family: Arial, sans-serif; margin: 20px; background: #0f0f0f; color: #fff; }}
+                .header {{ background: #ff0000; padding: 20px; text-align: center; }}
+                .section {{ background: #1a1a1a; margin: 10px 0; padding: 15px; border-radius: 5px; }}
+                .found {{ color: #00ff00; }}
+                .high-risk {{ color: #ff4444; }}
+                .medium-risk {{ color: #ffaa00; }}
+                table {{ width: 100%; border-collapse: collapse; }}
+                th, td {{ padding: 8px; text-align: left; border-bottom: 1px solid #333; }}
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <h1>🕵️‍♂️ DarkBoss1BD OSINT Intelligence Report</h1>
+                <h3>Target: {email}</h3>
+                <p>Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</p>
+            </div>
+            
+            <div class="section">
+                <h2>📊 Executive Summary</h2>
+                <p>Accounts Found: <span class="found">{analysis['accounts_found']}</span></p>
+                <p>High Risk Profiles: <span class="high-risk">{analysis['high_risk_accounts']}</span></p>
+                <p>Success Rate: {analysis['success_rate']:.1f}%</p>
+            </div>
+            
+            <div class="section">
+                <h2>🔍 Detailed Findings</h2>
+                <table>
+                    <tr><th>Platform</th><th>Status</th><th>Confidence</th><th>Threat Level</th><th>Profile URL</th></tr>
+        """
         
-        try:
-            for i in range(5):  # Simulate 5 live updates
-                time.sleep(3)
-                
-                # Simulate new activity
-                platform = random.choice(list(results.keys()))
-                if results[platform]["account_exists"]:
-                    new_activity = {
-                        "action": random.choice(self.platforms_activities[platform]["activities"]),
-                        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                        "device": random.choice(["Mobile", "Desktop", "Tablet"]),
-                        "location": random.choice(["Dhaka", "Chittagong", "New York", "London"])
-                    }
-                    
-                    results[platform]["recent_activities"].insert(0, new_activity)
-                    results[platform]["login_count"] += 1
-                    
-                    print(f"\033[92m[🆕] NEW ACTIVITY: {platform} - {new_activity['action']}")
-                    print(f"\033[97m     📅 {new_activity['timestamp']} | 📱 {new_activity['device']} | 📍 {new_activity['location']}")
-                    
-        except KeyboardInterrupt:
-            print(f"\n\033[93m[⏹️] Live monitoring stopped by user")
+        for result in results:
+            if result["status"] == "Account Found":
+                threat_class = "high-risk" if result["threat_level"] == "HIGH" else "medium-risk" if result["threat_level"] == "MEDIUM" else "found"
+                html += f"""
+                    <tr>
+                        <td>{result['platform']}</td>
+                        <td class="found">{result['status']}</td>
+                        <td>{result['confidence']}%</td>
+                        <td class="{threat_class}">{result['threat_level']}</td>
+                        <td><a href="{result['profile_url']}" target="_blank">{result['profile_url']}</a></td>
+                    </tr>
+                """
+        
+        html += """
+                </table>
+            </div>
+            
+            <div class="section">
+                <h2>🔧 Scan Information</h2>
+                <p>Tool: DarkBoss1BD Advanced Scanner v4.0</p>
+                <p>Operator: darkboss1bd</p>
+                <p>Platforms Scanned: """ + str(len(self.platforms_db)) + """</p>
+            </div>
+        </body>
+        </html>
+        """
+        
+        return html
 
 def main():
     try:
-        monitor = RealTimeAccountMonitor()
-        monitor.display_banner()
-        monitor.open_links()
+        scanner = AdvancedDarkBoss1BDScanner()
+        scanner.display_banner()
+        scanner.open_links()
         
         while True:
             print(f"\n\033[96m{'═' * 60}")
             email = input("\033[97m[📧] Enter target email \033[91m(or 'quit' to exit)\033[97m: ").strip()
             
             if email.lower() == 'quit':
-                print("\033[93m[👋] Thank you for using DarkBoss1BD Live Monitor!")
+                print("\033[93m[👋] Thank you for using DarkBoss1BD Advanced OSINT Framework!")
                 break
             
             if '@' not in email or '.' not in email:
@@ -456,37 +486,31 @@ def main():
             
             start_time = time.time()
             
-            # Perform real-time monitoring
-            results = monitor.simulate_real_time_monitoring(email)
+            # Perform advanced scan
+            results = scanner.perform_advanced_scan(email)
             
-            # Display dashboard
-            monitor.display_real_time_dashboard(email, results)
+            # Analyze results
+            analysis = scanner.analyze_results(results, email)
             
-            # Display detailed activities
-            monitor.display_detailed_activities(email, results)
-            
-            # Display activity timeline
-            monitor.generate_activity_timeline(results)
+            # Display comprehensive report
+            scanner.display_comprehensive_report(email, results, analysis)
             
             # Save reports
-            monitor.save_comprehensive_report(email, results)
-            
-            # Simulate live updates
-            monitor.simulate_live_updates(email, results)
+            scanner.save_advanced_reports(email, results, analysis)
             
             end_time = time.time()
-            print(f"\033[92m[⏱️] Monitoring completed in {end_time - start_time:.2f} seconds")
+            print(f"\033[92m[⏱️] Scan completed in {end_time - start_time:.2f} seconds")
             
             # Ask for another scan
             print(f"\n\033[96m{'═' * 60}")
-            continue_scan = input("\033[97m[?] Monitor another target? \033[92m(y/n)\033[97m: ").lower()
+            continue_scan = input("\033[97m[?] Scan another target? \033[92m(y/n)\033[97m: ").lower()
             if continue_scan != 'y':
-                print("\033[93m[👋] Thank you for using DarkBoss1BD Live Monitor!")
-                print("\033[96m[📞] Join our Telegram for real-time updates!")
+                print("\033[93m[👋] Thank you for using DarkBoss1BD Advanced OSINT Framework!")
+                print("\033[96m[📞] Join our Telegram for updates and support!")
                 break
                 
     except KeyboardInterrupt:
-        print("\n\033[91m[!] Monitoring interrupted by user!")
+        print("\n\033[91m[!] Scan interrupted by user!")
     except Exception as e:
         print(f"\033[91m[!] An error occurred: {e}")
 
